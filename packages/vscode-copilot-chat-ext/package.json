@@ -1,0 +1,12 @@
+{
+  "name": "@agentx/vscode-copilot-chat-ext",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "AgentX VS Code Copilot Chat extension",
+  "scripts": {
+    "build": "echo 'No build configured'",
+    "test": "echo 'No tests configured'",
+    "clean": "echo 'No clean configured'"
+  }
+}

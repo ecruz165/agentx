@@ -1,0 +1,35 @@
+# Project Assistant Configuration
+
+{{#if persona}}
+## Persona
+{{persona.description}}
+{{#if persona.tone}}
+Tone: {{persona.tone}}.
+{{/if}}
+
+{{#if persona.conventions}}
+### Conventions
+{{#each persona.conventions}}
+- {{this}}
+{{/each}}
+{{/if}}
+{{/if}}
+
+{{#if skills}}
+## Available Skills
+{{#each skills}}
+- `{{this.name}}` — {{this.description}}
+{{/each}}
+{{/if}}
+
+{{#if workflows}}
+## Available Workflows
+{{#each workflows}}
+- `{{this.name}}` — {{this.description}}
+{{/each}}
+{{/if}}
+
+{{#if hasContext}}
+## Context
+Refer to .opencode/context/ for project patterns and documentation.
+{{/if}}

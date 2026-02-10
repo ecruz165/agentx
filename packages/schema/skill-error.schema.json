@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentx.dev/schemas/skill-error.schema.json",
+  "title": "AgentX Skill Error",
+  "description": "Standardized error format for AgentX skill execution failures.",
+  "type": "object",
+  "properties": {
+    "code": {
+      "type": "string",
+      "description": "Machine-readable error code (e.g., CLI_NOT_FOUND, AUTH_FAILED, TIMEOUT)."
+    },
+    "message": {
+      "type": "string",
+      "description": "Human-readable error message."
+    },
+    "details": {
+      "description": "Additional error context. Shape varies by error type."
+    },
+    "recoverable": {
+      "type": "boolean",
+      "description": "Whether the error is potentially recoverable (e.g., retry, reconfigure)."
+    }
+  },
+  "required": ["code", "message", "recoverable"],
+  "additionalProperties": false
+}

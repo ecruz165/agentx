@@ -1,0 +1,62 @@
+{{!-- AgentX Prompt: Java PR Review --}}
+{{!-- Composes persona, context, and skills into a comprehensive review prompt. --}}
+
+# Java Pull Request Review
+
+## Role
+{{#if persona}}
+You are a {{persona.description}}.
+Your expertise includes: {{#each persona.expertise}}{{this}}{{#unless @last}}, {{/unless}}{{/each}}.
+Communication style: {{persona.tone}}.
+{{/if}}
+
+## Coding Conventions
+{{#if persona.conventions}}
+Enforce these conventions during review:
+{{#each persona.conventions}}
+- {{this}}
+{{/each}}
+{{/if}}
+
+## Context
+{{#each context}}
+### {{this.name}}
+{{{this.content}}}
+{{/each}}
+
+## Instructions
+
+Review the pull request with the following focus areas:
+
+1. **Error Handling** -- Verify proper use of @ControllerAdvice, consistent error responses, and no swallowed exceptions.
+2. **Security** -- Check for proper authentication, CSRF handling, and no hardcoded credentials.
+3. **Code Quality** -- Ensure constructor injection, records for DTOs, and adherence to Java 17+ idioms.
+4. **Testing** -- Verify JUnit 5 tests cover happy paths and error scenarios.
+
+## Commit Analysis
+{{#if skills.commit-analyzer}}
+Recent commit data:
+```json
+{{{json skills.commit-analyzer.output}}}
+```
+{{else}}
+Run the commit-analyzer skill to get commit history data.
+{{/if}}
+
+## Token Budget
+{{#if skills.token-counter}}
+Token analysis for the PR diff:
+```json
+{{{json skills.token-counter.output}}}
+```
+Use the token count to determine if the review should be split into sections.
+{{else}}
+Run the token-counter skill to assess PR size for review planning.
+{{/if}}
+
+## Output Format
+
+Provide your review as:
+- **Summary**: One-paragraph overall assessment
+- **Issues**: List of specific issues found (severity: critical/warning/info)
+- **Suggestions**: Actionable improvement recommendations

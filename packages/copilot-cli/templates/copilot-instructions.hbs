@@ -1,0 +1,18 @@
+{{#if persona}}
+{{persona.description}}
+{{#if persona.tone}}
+Tone: {{persona.tone}}.
+{{/if}}
+
+{{#if persona.conventions}}
+## Conventions
+{{#each persona.conventions}}
+- {{this}}
+{{/each}}
+{{/if}}
+{{/if}}
+
+{{#if hasContext}}
+## Reference Documentation
+See .github/copilot-context/ for project patterns and examples.
+{{/if}}

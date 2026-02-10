@@ -1,0 +1,5 @@
+type: skill
+version: 1.0.0
+description: A skill missing the required name field
+runtime: node
+topic: scm

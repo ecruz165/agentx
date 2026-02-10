@@ -1,0 +1,17 @@
+{
+  "name": "@agentx/skill-scm-git-commit-analyzer",
+  "version": "1.0.0",
+  "description": "Analyzes git commit history for patterns and issues",
+  "type": "module",
+  "main": "index.mjs",
+  "scripts": {
+    "start": "node index.mjs",
+    "test": "node --test test/**/*.test.mjs",
+    "build": "make build",
+    "clean": "make clean"
+  },
+  "dependencies": {},
+  "devDependencies": {},
+  "keywords": ["agentx", "skill", "scm", "git"],
+  "license": "MIT"
+}

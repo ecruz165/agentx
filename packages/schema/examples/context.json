@@ -1,0 +1,11 @@
+{
+  "name": "spring-boot-error-handling",
+  "type": "context",
+  "version": "1.0.0",
+  "description": "Standard error handling patterns for Spring Boot services",
+  "tags": ["spring-boot", "java", "error-handling"],
+  "author": "edwin",
+  "format": "markdown",
+  "tokens": 2400,
+  "sources": ["patterns.md", "examples.md", "anti-patterns.md"]
+}

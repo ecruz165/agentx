@@ -1,0 +1,12 @@
+{
+  "name": "@agentx/skill-ai-token-counter",
+  "version": "1.0.0",
+  "description": "Counts tokens in text using tiktoken for a given model encoding",
+  "scripts": {
+    "build": "make build",
+    "test": "make test",
+    "clean": "make clean"
+  },
+  "keywords": ["agentx", "skill", "ai", "tokens", "tiktoken"],
+  "license": "MIT"
+}

@@ -1,0 +1,12 @@
+{
+  "success": true,
+  "data": {
+    "totalCommits": 142,
+    "authors": 5,
+    "avgPerDay": 4.7
+  },
+  "metadata": {
+    "duration_ms": 1250,
+    "timestamp": "2026-02-09T15:30:00.000Z"
+  }
+}

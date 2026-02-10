@@ -1,0 +1,138 @@
+name: Release to Nexus
+
+on:
+  workflow_run:
+    workflows: ["Release CLI"]
+    types: [completed]
+
+jobs:
+  upload-binaries:
+    runs-on: ubuntu-latest
+    if: github.event.workflow_run.conclusion == 'success'
+    steps:
+      - name: Extract release tag
+        id: tag
+        env:
+          HEAD_BRANCH: ${{ github.event.workflow_run.head_branch }}
+        run: |
+          if [[ ! "$HEAD_BRANCH" =~ ^v ]]; then
+            echo "Not a version tag (${HEAD_BRANCH}), skipping."
+            exit 1
+          fi
+          echo "tag=${HEAD_BRANCH}" >> "$GITHUB_OUTPUT"
+          echo "Release tag: ${HEAD_BRANCH}"
+
+      - name: Download release artifacts
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+          RELEASE_TAG: ${{ steps.tag.outputs.tag }}
+        run: |
+          mkdir -p artifacts
+          gh release download "$RELEASE_TAG" \
+            --repo "$GH_REPO" \
+            --pattern "agentx_*.tar.gz" \
+            --pattern "agentx_*.zip" \
+            --pattern "checksums.txt" \
+            --dir artifacts
+
+      - name: Upload binaries to Nexus
+        env:
+          NEXUS_USER: ${{ secrets.NEXUS_USER }}
+          NEXUS_TOKEN: ${{ secrets.NEXUS_TOKEN }}
+          NEXUS_URL: ${{ vars.NEXUS_URL }}
+          RELEASE_TAG: ${{ steps.tag.outputs.tag }}
+        run: |
+          for artifact in artifacts/*; do
+            filename="$(basename "$artifact")"
+            echo "Uploading ${filename}..."
+            curl --fail --silent --show-error \
+              -u "${NEXUS_USER}:${NEXUS_TOKEN}" \
+              --upload-file "$artifact" \
+              "${NEXUS_URL}/agentx-releases/${RELEASE_TAG}/${filename}"
+          done
+
+  publish-npm:
+    runs-on: ubuntu-latest
+    if: github.event.workflow_run.conclusion == 'success'
+    steps:
+      - name: Extract release tag
+        id: tag
+        env:
+          HEAD_BRANCH: ${{ github.event.workflow_run.head_branch }}
+        run: |
+          if [[ ! "$HEAD_BRANCH" =~ ^v ]]; then
+            echo "Not a version tag (${HEAD_BRANCH}), skipping."
+            exit 1
+          fi
+          echo "tag=${HEAD_BRANCH}" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ steps.tag.outputs.tag }}
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Configure Nexus npm registry
+        env:
+          NEXUS_NPM_TOKEN: ${{ secrets.NEXUS_NPM_TOKEN }}
+          NEXUS_NPM_URL: ${{ vars.NEXUS_NPM_URL }}
+        run: |
+          REGISTRY_HOST="$(echo "$NEXUS_NPM_URL" | sed 's|https\?://||')"
+          echo "@agentx:registry=${NEXUS_NPM_URL}" >> .npmrc
+          echo "//${REGISTRY_HOST}/:_authtoken=${NEXUS_NPM_TOKEN}" >> .npmrc
+
+      - name: Publish @agentx packages to Nexus
+        run: pnpm -r --filter '@agentx/*' publish --no-git-checks
+
+  upload-install-script:
+    runs-on: ubuntu-latest
+    if: github.event.workflow_run.conclusion == 'success'
+    steps:
+      - name: Extract release tag
+        id: tag
+        env:
+          HEAD_BRANCH: ${{ github.event.workflow_run.head_branch }}
+        run: |
+          if [[ ! "$HEAD_BRANCH" =~ ^v ]]; then
+            echo "Not a version tag (${HEAD_BRANCH}), skipping."
+            exit 1
+          fi
+          echo "tag=${HEAD_BRANCH}" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ steps.tag.outputs.tag }}
+
+      - name: Upload install script to Nexus
+        env:
+          NEXUS_USER: ${{ secrets.NEXUS_USER }}
+          NEXUS_TOKEN: ${{ secrets.NEXUS_TOKEN }}
+          NEXUS_URL: ${{ vars.NEXUS_URL }}
+        run: |
+          echo "Uploading install.sh..."
+          curl --fail --silent --show-error \
+            -u "${NEXUS_USER}:${NEXUS_TOKEN}" \
+            --upload-file scripts/install.sh \
+            "${NEXUS_URL}/agentx-releases/install.sh"
+
+      - name: Upload latest version marker
+        env:
+          NEXUS_USER: ${{ secrets.NEXUS_USER }}
+          NEXUS_TOKEN: ${{ secrets.NEXUS_TOKEN }}
+          NEXUS_URL: ${{ vars.NEXUS_URL }}
+          RELEASE_TAG: ${{ steps.tag.outputs.tag }}
+        run: |
+          echo "${RELEASE_TAG}" > version.txt
+          echo "Uploading version.txt (${RELEASE_TAG})..."
+          curl --fail --silent --show-error \
+            -u "${NEXUS_USER}:${NEXUS_TOKEN}" \
+            --upload-file version.txt \
+            "${NEXUS_URL}/agentx-releases/latest/version.txt"

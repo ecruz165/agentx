@@ -1,0 +1,42 @@
+name: ssm-lookup
+type: skill
+version: "1.0.0"
+description: Looks up AWS SSM Parameter Store values with caching
+tags:
+  - aws
+  - ssm
+  - cloud
+  - parameters
+runtime: node
+topic: cloud
+vendor: aws
+cli_dependencies:
+  - name: aws
+    min_version: "2.0.0"
+inputs:
+  - name: param-name
+    type: string
+    required: true
+    description: SSM parameter name or path to look up
+  - name: decrypt
+    type: boolean
+    required: false
+    default: true
+    description: Whether to decrypt SecureString parameters
+outputs:
+  format: json
+registry:
+  tokens:
+    - name: SSM_ROLE_ARN
+      required: true
+      description: IAM role ARN to assume for SSM access
+    - name: AWS_REGION
+      required: false
+      default: "us-east-1"
+      description: AWS region for SSM calls
+  config:
+    cache_ttl: 300
+    max_results: 10
+  state:
+    - cache.json
+    - last-run.json

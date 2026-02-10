@@ -1,0 +1,19 @@
+name: skill-readme
+type: template
+version: "1.0.0"
+description: README template for AgentX skills
+tags:
+  - documentation
+  - readme
+format: handlebars
+variables:
+  - name: skill-name
+    description: Name of the skill
+    required: true
+  - name: description
+    description: Skill description
+    required: true
+  - name: author
+    description: Author name
+    required: false
+    default: AgentX

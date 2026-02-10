@@ -1,0 +1,23 @@
+name: gh
+display_name: GitHub CLI
+description: GitHub command-line tool
+check:
+  command: "gh --version"
+  version_regex: "gh version (\\d+\\.\\d+\\.\\d+)"
+  min_version: "2.0.0"
+install:
+  homebrew:
+    package: gh
+  winget:
+    package: GitHub.cli
+  apt:
+    commands:
+      - "sudo mkdir -p -m 755 /etc/apt/keyrings"
+      - "wget -qO- https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo tee /etc/apt/keyrings/githubcli-archive-keyring.gpg > /dev/null"
+      - "sudo chmod go+r /etc/apt/keyrings/githubcli-archive-keyring.gpg"
+      - 'echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null'
+      - "sudo apt-get update"
+      - "sudo apt-get install -y gh"
+  manual:
+    url: https://github.com/cli/cli#installation
+    instructions: "Visit the GitHub CLI installation page for your platform."

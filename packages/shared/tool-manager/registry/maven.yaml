@@ -1,0 +1,17 @@
+name: mvn
+display_name: Apache Maven
+description: Build automation tool for Java projects
+check:
+  command: "mvn --version"
+  version_regex: "Apache Maven (\\d+\\.\\d+\\.\\d+)"
+  min_version: "3.6.0"
+install:
+  homebrew:
+    package: maven
+  winget:
+    package: Apache.Maven
+  apt:
+    package: maven
+  manual:
+    url: https://maven.apache.org/install.html
+    instructions: "Download Maven from the official website and follow the installation guide."

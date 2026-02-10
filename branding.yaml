@@ -1,0 +1,33 @@
+# branding.yaml — Fork Configuration
+#
+# This file is the single source of truth for rebranding AgentX.
+# Forkers: edit this file, then run `scripts/rebrand.sh` to apply changes.
+#
+# What `scripts/rebrand.sh` does:
+#   1. Updates go.mod module path
+#   2. Replaces all Go import paths across the CLI source
+#   3. Syncs this file into the Go embed location
+#   4. Updates the install script (scripts/install.sh)
+#   5. Updates GoReleaser config (.goreleaser.yaml)
+#
+# After rebranding, `make build` bakes these values into the binary.
+
+# CLI identity
+cli_name: agentx                                        # binary name and root command
+display_name: AgentX                                    # human-readable name in help text
+description: Supply chain manager for AI agent configurations
+
+# Directory names (under $HOME)
+home_dir: .agentx                                       # ~/.agentx/
+
+# Environment variable prefix (uppercase of cli_name by convention)
+env_prefix: AGENTX                                      # AGENTX_HOME, AGENTX_CATALOG, etc.
+
+# Go module path (used in go.mod and all import statements)
+go_module: github.com/agentx-labs/agentx                # forkers: change to your module path
+
+# GitHub coordinates (for self-update and install script)
+github_repo: ecruz165/agentx                            # owner/repo
+
+# Default catalog source (for end-user mode clone)
+catalog_repo_url: https://github.com/ecruz165/agentx.git

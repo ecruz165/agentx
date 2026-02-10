@@ -1,0 +1,34 @@
+{{!-- AgentX Template: Skill README --}}
+{{!-- Variables: skill-name (required), description (required), author (optional, default: AgentX) --}}
+
+# {{skill-name}}
+
+{{description}}
+
+## Installation
+
+```bash
+agentx install {{skill-name}}
+```
+
+## Usage
+
+```bash
+agentx run {{skill-name}}
+```
+
+## Configuration
+
+After installation, configure the skill at:
+
+```
+~/.agentx/userdata/skills/{{skill-name}}/config.yaml
+```
+
+## Author
+
+{{#if author}}{{author}}{{else}}AgentX{{/if}}
+
+## License
+
+MIT

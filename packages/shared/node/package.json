@@ -1,0 +1,20 @@
+{
+  "name": "@agentx/shared-node",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "AgentX shared Node.js utilities for skills and CLI",
+  "main": "index.mjs",
+  "exports": {
+    ".": "./index.mjs"
+  },
+  "scripts": {
+    "build": "npm install --omit=dev",
+    "test": "node --test test/**/*.test.mjs",
+    "clean": "rm -rf node_modules"
+  },
+  "dependencies": {
+    "yaml": "^2.7.0",
+    "dotenv": "^16.4.0"
+  }
+}

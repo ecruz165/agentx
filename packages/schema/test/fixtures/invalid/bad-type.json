@@ -1,0 +1,6 @@
+{
+  "name": "test-bad-type",
+  "type": "invalid-type",
+  "version": "1.0.0",
+  "description": "Has an invalid type enum value"
+}

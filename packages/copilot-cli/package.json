@@ -1,0 +1,21 @@
+{
+  "name": "@agentx/copilot-cli",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "AgentX GitHub Copilot CLI integration — generates .github/copilot configuration",
+  "main": "src/index.mjs",
+  "exports": {
+    ".": "./src/index.mjs"
+  },
+  "scripts": {
+    "build": "make build",
+    "test": "make test",
+    "clean": "make clean"
+  },
+  "dependencies": {
+    "@agentx/shared-node": "workspace:*",
+    "handlebars": "^4.7.0",
+    "yaml": "^2.7.0"
+  }
+}

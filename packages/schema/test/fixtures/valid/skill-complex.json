@@ -1,0 +1,66 @@
+{
+  "name": "query-builder",
+  "type": "skill",
+  "version": "1.0.0",
+  "description": "Generates and manages Splunk SPL queries",
+  "tags": ["splunk", "observability", "logs"],
+  "author": "edwin",
+  "runtime": "node",
+  "vendor": "splunk",
+  "topic": "observability",
+  "cli_dependencies": [],
+  "inputs": [
+    {
+      "name": "logPattern",
+      "type": "string",
+      "required": true,
+      "description": "Log pattern or description to build a query for"
+    },
+    {
+      "name": "template",
+      "type": "string",
+      "required": false,
+      "description": "Name of a saved template to use instead of generating"
+    }
+  ],
+  "outputs": {
+    "format": "json",
+    "schema": "./output-schema.json"
+  },
+  "registry": {
+    "tokens": [
+      {
+        "name": "SPLUNK_HOST",
+        "required": true,
+        "description": "Splunk instance hostname"
+      },
+      {
+        "name": "SPLUNK_TOKEN",
+        "required": true,
+        "description": "Splunk HEC or API token"
+      },
+      {
+        "name": "SPLUNK_PORT",
+        "required": false,
+        "default": "8089",
+        "description": "Splunk management port"
+      }
+    ],
+    "config": {
+      "default_index": "main",
+      "default_time_range": "-24h",
+      "max_results": 1000
+    },
+    "state": [
+      "cache.json",
+      "last-run.json"
+    ],
+    "output": {
+      "schema": "./output-schema.json"
+    },
+    "templates": {
+      "format": "spl",
+      "description": "Graduated SPL queries saved by user after successful runs"
+    }
+  }
+}

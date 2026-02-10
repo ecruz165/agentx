@@ -1,0 +1,25 @@
+{
+  "name": "agentx",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@9.0.0",
+  "engines": {
+    "node": ">=20.0.0",
+    "pnpm": ">=9.0.0"
+  },
+  "scripts": {
+    "build": "pnpm -r run build",
+    "build:cli": "pnpm --filter @agentx/cli run build",
+    "build:vscode": "pnpm --filter @agentx/vscode-copilot-chat-ext run build",
+    "build:copilot": "pnpm --filter @agentx/copilot-cli run build",
+    "build:claudecode": "pnpm --filter @agentx/claudecode-cli run build",
+    "build:augment": "pnpm --filter @agentx/augment-cli run build",
+    "build:skills": "pnpm --filter './catalog/skills/**' run build",
+    "build:workflows": "pnpm --filter './catalog/workflows/**' run build",
+    "test": "pnpm -r run test",
+    "test:cli": "pnpm --filter @agentx/cli run test",
+    "test:skills": "pnpm --filter './catalog/skills/**' run test",
+    "lint": "pnpm -r run lint",
+    "clean": "pnpm -r run clean"
+  }
+}

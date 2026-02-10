@@ -1,0 +1,3 @@
+name: missing-type
+version: 1.0.0
+description: A manifest missing the required type field

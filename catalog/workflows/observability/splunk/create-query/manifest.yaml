@@ -1,0 +1,48 @@
+name: create-query
+type: workflow
+version: "1.0.0"
+description: Multi-step workflow that analyzes logs and creates reusable Splunk SPL queries
+tags:
+  - splunk
+  - observability
+  - logs
+  - spl
+runtime: node
+steps:
+  - id: analyze-logs
+    description: Analyze log pattern to identify key fields and structure
+    inputs:
+      log-pattern: "{{inputs.log-pattern}}"
+  - id: create-splunk-query
+    description: Generate SPL query from analysis or load from saved template
+    inputs:
+      template: "{{inputs.template}}"
+      index: "{{inputs.index}}"
+  - id: search-splunk
+    description: Execute the generated SPL query against Splunk
+    inputs:
+      query: "{{steps.create-splunk-query.outputs.spl}}"
+  - id: save-query-template
+    description: Offer to save the generated query as a reusable template
+    inputs:
+      query: "{{steps.create-splunk-query.outputs.spl}}"
+inputs:
+  - name: log-pattern
+    type: string
+    required: true
+    description: Description of the log pattern to build a query for
+  - name: template
+    type: string
+    required: false
+    description: Name of a saved template to use instead of generating
+  - name: index
+    type: string
+    required: false
+    default: "main"
+    description: Splunk index to search
+  - name: save-as
+    type: string
+    required: false
+    description: Save the generated query as a template with this name
+outputs:
+  format: json

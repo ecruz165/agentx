@@ -1,0 +1,4 @@
+# Project configuration — extensions and type resolution order
+extensions: []
+resolution:
+  order: [local, catalog, extensions]

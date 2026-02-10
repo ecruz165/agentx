@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentx.dev/schemas/skill-output.schema.json",
+  "title": "AgentX Skill Output",
+  "description": "Standardized output format for AgentX skill execution results.",
+  "type": "object",
+  "properties": {
+    "success": {
+      "type": "boolean",
+      "description": "Whether the skill execution completed successfully."
+    },
+    "data": {
+      "description": "The skill's output payload. Shape is defined by each individual skill."
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "duration_ms": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Execution duration in milliseconds."
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO 8601 timestamp of when the skill completed."
+        }
+      },
+      "required": ["duration_ms", "timestamp"],
+      "additionalProperties": false
+    }
+  },
+  "required": ["success", "data", "metadata"],
+  "additionalProperties": false
+}

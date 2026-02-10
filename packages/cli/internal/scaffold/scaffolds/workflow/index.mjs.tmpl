@@ -1,0 +1,44 @@
+// {{.Name}} — AgentX Workflow
+// Workflows compose multiple skills into a pipeline.
+
+import { readFileSync, existsSync } from 'fs';
+import { join } from 'path';
+import { homedir } from 'os';
+
+const USERDATA = process.env.AGENTX_USERDATA
+  || join(homedir(), '.agentx', 'userdata');
+
+// ─── Step Execution ────────────────────────────────────────────────
+// Each step reads the previous step's output from the skills registry.
+// Modify the steps array to compose your workflow.
+
+const steps = [
+  {
+    id: 'step-1',
+    skill: 'replace-with-skill-reference',
+    run: async () => {
+      // TODO: Invoke the skill or read its latest output.
+      // Example: read a skill's output
+      // const outputPath = join(USERDATA, 'skills', 'topic/name', 'output', 'latest.json');
+      // if (existsSync(outputPath)) {
+      //   return JSON.parse(readFileSync(outputPath, 'utf8'));
+      // }
+      return { status: 'ok', message: 'Step 1 placeholder' };
+    },
+  },
+];
+
+// ─── Runner ────────────────────────────────────────────────────────
+async function run() {
+  const results = {};
+  for (const step of steps) {
+    console.log(`Running step: ${step.id} (${step.skill})`);
+    results[step.id] = await step.run();
+  }
+  console.log(JSON.stringify(results, null, 2));
+}
+
+run().catch((err) => {
+  console.error(err);
+  process.exit(1);
+});

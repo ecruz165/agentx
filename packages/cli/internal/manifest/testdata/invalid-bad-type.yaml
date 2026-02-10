@@ -1,0 +1,4 @@
+name: bad-type
+type: invalid-type
+version: 1.0.0
+description: A manifest with an invalid type value

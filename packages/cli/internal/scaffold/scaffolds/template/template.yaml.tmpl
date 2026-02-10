@@ -1,0 +1,13 @@
+name: {{.Name}}
+type: template
+version: {{.Version}}
+description: "{{.Description}}"
+tags: []
+format: handlebars
+variables:
+  - name: title
+    description: The title for the generated output
+    required: true
+  - name: content
+    description: The main content body
+    default: ""

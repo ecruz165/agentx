@@ -1,0 +1,5 @@
+name: no-runtime-skill
+type: skill
+version: 1.0.0
+description: A skill manifest missing the required runtime field
+topic: scm

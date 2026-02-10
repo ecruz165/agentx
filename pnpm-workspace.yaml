@@ -1,0 +1,15 @@
+packages:
+  # Tooling (packages/)
+  - 'packages/cli'
+  - 'packages/vscode-copilot-chat-ext'
+  - 'packages/schema'
+  - 'packages/shared/node'
+  - 'packages/shared/tool-manager'
+  - 'packages/copilot-cli'
+  - 'packages/claudecode-cli'
+  - 'packages/augment-cli'
+  - 'packages/opencode-cli'
+
+  # Catalog - skills and workflows (have package.json)
+  - 'catalog/skills/**/*'
+  - 'catalog/workflows/*'

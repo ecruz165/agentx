@@ -1,0 +1,32 @@
+name: commit-analyzer
+type: skill
+version: "1.0.0"
+description: Analyzes git commit history for patterns and issues
+tags:
+  - git
+  - scm
+  - analysis
+runtime: node
+topic: scm
+vendor: git
+cli_dependencies:
+  - name: git
+    min_version: "2.0.0"
+inputs:
+  - name: repo-path
+    type: string
+    required: true
+    description: Path to the git repository
+  - name: since
+    type: string
+    required: false
+    default: "30d"
+    description: Time period to analyze
+outputs:
+  format: json
+registry:
+  tokens: []
+  config:
+    max_commits: 500
+    include_merges: false
+  state: []

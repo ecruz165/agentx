@@ -1,0 +1,11 @@
+name: security
+type: context
+version: "1.0.0"
+description: Spring Security configuration patterns and best practices
+tags:
+  - java
+  - spring-boot
+  - security
+format: markdown
+sources:
+  - content.md

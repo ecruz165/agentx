@@ -1,0 +1,126 @@
+// {{.Name}} — AgentX Skill (Node)
+// ─── Skill Registry (self-contained, no AgentX dependency) ─────────
+import { readFileSync, writeFileSync, mkdirSync, existsSync, readdirSync } from 'fs';
+import { join } from 'path';
+import { homedir } from 'os';
+import { config } from 'dotenv';
+import { parse as parseYaml } from 'yaml';
+
+// Skill identity — derived from directory position
+const SKILL_TOPIC  = '{{.Topic}}';
+const SKILL_VENDOR = '{{.Vendor}}';
+const SKILL_NAME   = '{{.Name}}';
+const SKILL_PATH   = {{if .Vendor}}`${SKILL_TOPIC}/${SKILL_VENDOR}/${SKILL_NAME}`{{else}}`${SKILL_TOPIC}/${SKILL_NAME}`{{end}};
+
+// Resolve userdata root
+const USERDATA = process.env.AGENTX_USERDATA
+  || join(homedir(), '.agentx', 'userdata');
+
+// ─── Registry: one folder with everything about this skill ─────────
+const registry = {
+  // Skill-specific registry folder
+  root:      join(USERDATA, 'skills', SKILL_PATH),
+  tokens:    join(USERDATA, 'skills', SKILL_PATH, 'tokens.env'),
+  config:    join(USERDATA, 'skills', SKILL_PATH, 'config.yaml'),
+  state:     join(USERDATA, 'skills', SKILL_PATH, 'state'),
+  output:    join(USERDATA, 'skills', SKILL_PATH, 'output'),
+  templates: join(USERDATA, 'skills', SKILL_PATH, 'templates'),
+
+  // Shared resources
+  envDefault: join(USERDATA, 'env', 'default.env'),
+  {{- if .Vendor}}
+  envVendor:  join(USERDATA, 'env', `${SKILL_VENDOR}.env`),
+  {{- end}}
+  profile:    join(USERDATA, 'profiles', 'active'),
+  prefs:      join(USERDATA, 'preferences.yaml'),
+};
+
+// ─── Load context (resolution order) ───────────────────────────────
+// 1. Shared env
+if (existsSync(registry.envDefault)) config({ path: registry.envDefault });
+// 2. Shared vendor env
+{{- if .Vendor}}
+if (existsSync(registry.envVendor))  config({ path: registry.envVendor, override: true });
+{{- end}}
+// 3. Skill-specific tokens (highest priority)
+if (existsSync(registry.tokens))     config({ path: registry.tokens, override: true });
+
+// 4. Skill-specific config
+const skillConfig = existsSync(registry.config)
+  ? parseYaml(readFileSync(registry.config, 'utf8'))
+  : {};
+
+// 5. Active profile
+const profile = existsSync(registry.profile)
+  ? parseYaml(readFileSync(registry.profile, 'utf8'))
+  : {};
+
+// 6. User preferences
+const prefs = existsSync(registry.prefs)
+  ? parseYaml(readFileSync(registry.prefs, 'utf8'))
+  : {};
+
+// ─── Helpers ───────────────────────────────────────────────────────
+function readState(filename) {
+  const filepath = join(registry.state, filename);
+  if (!existsSync(filepath)) return null;
+  return JSON.parse(readFileSync(filepath, 'utf8'));
+}
+
+function writeState(filename, data) {
+  mkdirSync(registry.state, { recursive: true });
+  writeFileSync(join(registry.state, filename), JSON.stringify(data, null, 2));
+}
+
+function saveOutput(data) {
+  mkdirSync(registry.output, { recursive: true });
+  const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+  const payload = JSON.stringify(data, null, 2);
+  writeFileSync(join(registry.output, 'latest.json'), payload);
+  writeFileSync(join(registry.output, `${timestamp}.json`), payload);
+}
+
+function loadTemplate(name) {
+  const filepath = join(registry.templates, name);
+  if (!existsSync(filepath)) return null;
+  return readFileSync(filepath, 'utf8');
+}
+
+function saveTemplate(name, content) {
+  mkdirSync(registry.templates, { recursive: true });
+  writeFileSync(join(registry.templates, name), content);
+}
+
+function listTemplates() {
+  if (!existsSync(registry.templates)) return [];
+  return readdirSync(registry.templates);
+}
+
+function readConfig() {
+  if (!existsSync(registry.config)) return {};
+  return parseYaml(readFileSync(registry.config, 'utf8'));
+}
+
+// ─── Skill Logic ───────────────────────────────────────────────────
+// TODO: Implement your skill logic here.
+//
+// Access everything through the registry:
+//   process.env.YOUR_TOKEN         ← from tokens.env
+//   readConfig().some_setting      ← from config.yaml
+//   profile.aws_region             ← from active profile
+//   prefs.output_format            ← from preferences.yaml
+//   readState('cache.json')        ← from state/
+//   saveOutput(result)             ← to output/latest.json
+//   loadTemplate('report.hbs')     ← from templates/
+
+const result = {
+  timestamp: new Date().toISOString(),
+  skill: SKILL_NAME,
+  status: 'ok',
+  data: {
+    message: `Hello from ${SKILL_NAME}`,
+  },
+};
+
+saveOutput(result);
+console.log(JSON.stringify(result, null, 2));

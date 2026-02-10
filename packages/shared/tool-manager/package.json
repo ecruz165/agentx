@@ -1,0 +1,21 @@
+{
+  "name": "@agentx/tool-manager",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "AgentX tool detection and installation manager",
+  "main": "index.mjs",
+  "exports": {
+    ".": "./index.mjs"
+  },
+  "scripts": {
+    "build": "npm install --omit=dev",
+    "test": "node --test test/**/*.test.mjs",
+    "clean": "rm -rf node_modules"
+  },
+  "dependencies": {
+    "yaml": "^2.7.0",
+    "semver": "^7.7.0",
+    "@inquirer/prompts": "^7.0.0"
+  }
+}

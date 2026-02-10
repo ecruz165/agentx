@@ -1,0 +1,27 @@
+{
+  "name": "error-spike",
+  "type": "template",
+  "version": "1.0.0",
+  "description": "Splunk SPL query template for detecting error rate spikes",
+  "tags": ["splunk", "observability", "alerting"],
+  "author": "edwin",
+  "format": "spl",
+  "variables": [
+    {
+      "name": "index",
+      "description": "Splunk index to search",
+      "default": "main",
+      "required": false
+    },
+    {
+      "name": "threshold",
+      "description": "Error rate threshold percentage",
+      "required": true
+    },
+    {
+      "name": "timeRange",
+      "description": "Time range for the query",
+      "default": "-1h"
+    }
+  ]
+}

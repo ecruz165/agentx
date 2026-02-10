@@ -1,0 +1,17 @@
+{
+  "name": "@agentx/workflow-observability-splunk-create-query",
+  "version": "1.0.0",
+  "description": "Multi-step workflow that analyzes logs and creates reusable Splunk SPL queries",
+  "type": "module",
+  "main": "index.mjs",
+  "scripts": {
+    "start": "node index.mjs",
+    "test": "node --test test/**/*.test.mjs",
+    "build": "make build",
+    "clean": "make clean"
+  },
+  "dependencies": {},
+  "devDependencies": {},
+  "keywords": ["agentx", "workflow", "splunk", "observability", "spl"],
+  "license": "MIT"
+}

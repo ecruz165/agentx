@@ -1,0 +1,3 @@
+{{description}}
+
+`agentx run {{ref}}{{#if inputs}} -- {{#each inputs}}--{{this.name}} {{curly this.name}}{{#unless @last}} {{/unless}}{{/each}}{{/if}}`

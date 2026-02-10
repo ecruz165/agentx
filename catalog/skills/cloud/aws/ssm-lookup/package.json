@@ -1,0 +1,17 @@
+{
+  "name": "@agentx/skill-cloud-ssm-lookup",
+  "version": "1.0.0",
+  "description": "Looks up AWS SSM Parameter Store values with caching",
+  "type": "module",
+  "main": "index.mjs",
+  "scripts": {
+    "start": "node index.mjs",
+    "test": "node --test test/**/*.test.mjs",
+    "build": "make build",
+    "clean": "make clean"
+  },
+  "dependencies": {},
+  "devDependencies": {},
+  "keywords": ["agentx", "skill", "cloud", "aws", "ssm"],
+  "license": "MIT"
+}

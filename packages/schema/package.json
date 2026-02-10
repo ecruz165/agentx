@@ -1,0 +1,22 @@
+{
+  "name": "@agentx/schema",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "AgentX manifest JSON Schema definitions and validation",
+  "main": "manifest.schema.json",
+  "exports": {
+    "./manifest": "./manifest.schema.json",
+    "./skill-output": "./skill-output.schema.json",
+    "./skill-error": "./skill-error.schema.json"
+  },
+  "scripts": {
+    "build": "make build",
+    "test": "make test",
+    "clean": "make clean"
+  },
+  "devDependencies": {
+    "ajv": "^8.17.1",
+    "ajv-formats": "^3.0.1"
+  }
+}

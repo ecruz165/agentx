@@ -1,0 +1,17 @@
+name: git
+display_name: Git
+description: Distributed version control system
+check:
+  command: "git --version"
+  version_regex: "git version (\\d+\\.\\d+\\.\\d+)"
+  min_version: "2.30.0"
+install:
+  homebrew:
+    package: git
+  winget:
+    package: Git.Git
+  apt:
+    package: git
+  manual:
+    url: https://git-scm.com/downloads
+    instructions: "Download Git from the official website."
