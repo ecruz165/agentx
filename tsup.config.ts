@@ -15,8 +15,7 @@ const date = new Date().toISOString();
 export default defineConfig({
   entry: ['src/cli.ts'],
   format: ['esm'],
-  target: 'node22',
-  platform: 'node',
+  target: 'es2022',
   outDir: 'dist',
   clean: true,
   sourcemap: true,

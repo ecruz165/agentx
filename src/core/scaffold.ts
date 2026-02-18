@@ -61,16 +61,11 @@ function manifestFileName(typeName: string): string {
 }
 
 function getScaffoldsDir(): string {
-  // Resolve relative to this file — works in both dev (tsx) and dist
+  // At runtime, code runs from dist/ — scaffolds live at src/scaffolds/
   const thisFile = fileURLToPath(import.meta.url);
-  const cliRoot = join(dirname(thisFile), '..');
-  // Check dist location first, then dev location
-  for (const candidate of [
-    join(cliRoot, '..', 'scaffolds'),
-    join(cliRoot, '..', '..', 'scaffolds'),
-  ]) {
-    if (existsSync(candidate)) return candidate;
-  }
+  const projectRoot = join(dirname(thisFile), '..');
+  const candidate = join(projectRoot, 'src', 'scaffolds');
+  if (existsSync(candidate)) return candidate;
   throw new Error('Scaffolds directory not found');
 }
 
