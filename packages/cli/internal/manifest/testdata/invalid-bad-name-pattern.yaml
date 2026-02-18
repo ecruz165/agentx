@@ -1,7 +1,0 @@
-name: Invalid_Name_123
-type: context
-version: 1.0.0
-description: A manifest with a name that violates the pattern
-format: markdown
-sources:
-  - readme.md

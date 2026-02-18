@@ -1,7 +1,0 @@
-{
-  "type": "context",
-  "version": "1.0.0",
-  "description": "Missing required name field",
-  "format": "markdown",
-  "sources": ["file.md"]
-}

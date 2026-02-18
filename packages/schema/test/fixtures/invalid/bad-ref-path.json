@@ -1,8 +1,0 @@
-{
-  "name": "test-bad-ref",
-  "type": "prompt",
-  "version": "1.0.0",
-  "description": "Has invalid reference paths",
-  "persona": "INVALID/Upper-Case-Path",
-  "context": ["not-valid-path"]
-}

@@ -1,8 +1,0 @@
-{
-  "name": "test-bad-version",
-  "type": "context",
-  "version": "not-a-version!",
-  "description": "Has an invalid version format",
-  "format": "markdown",
-  "sources": ["file.md"]
-}

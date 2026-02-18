@@ -1,7 +1,0 @@
-name: test-topic-docs
-type: context
-version: "1.0.0"
-description: Test topic documentation context
-format: markdown
-sources:
-  - docs/

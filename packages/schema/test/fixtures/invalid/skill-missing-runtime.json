@@ -1,7 +1,0 @@
-{
-  "name": "test-no-runtime",
-  "type": "skill",
-  "version": "1.0.0",
-  "description": "Skill missing required runtime field",
-  "topic": "testing"
-}
